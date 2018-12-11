@@ -9,10 +9,14 @@
     <!-- Chat Messages -->
     <b-col cols="8">
       <b-row>
-        <MessageList />
+        <b-col>
+          <MessageList />
+        </b-col>
       </b-row>
       <b-row>
-        <MessageForm />
+        <b-col>
+          <MessageForm />
+        </b-col>
       </b-row>
     </b-col>
 
