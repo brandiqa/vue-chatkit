@@ -1,20 +1,25 @@
 <template>
   <div class="chat-dashboard">
    <b-row>
-     <b-col>
-       <RoomList />
-      </b-col>
-     <b-col>
-       <b-row>
-         <MessageList />
-       </b-row>
-       <b-row>
-         <MessageForm />
-       </b-row>
-      </b-col>
-     <b-col>
-       <UserList />
-      </b-col>
+     <!-- Rooms -->
+    <b-col cols="2">
+      <RoomList />
+    </b-col>
+
+    <!-- Chat Messages -->
+    <b-col cols="8">
+      <b-row>
+        <MessageList />
+      </b-row>
+      <b-row>
+        <MessageForm />
+      </b-row>
+    </b-col>
+
+    <!-- Members -->
+    <b-col cols="2">
+      <UserList />
+    </b-col>
    </b-row>
   </div>
 </template>
