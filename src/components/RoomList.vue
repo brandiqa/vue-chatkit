@@ -4,7 +4,7 @@
     <hr>
     <b-list-group>
       <b-list-group-item v-for="room in rooms" :key="room.name" :active="room.active" href="#" @click="changeRoom(room)">
-        {{ room.name }}
+        # {{ room.name }}
       </b-list-group-item>
     </b-list-group>
   </div>
@@ -25,7 +25,7 @@ export default {
           active: false
         },
         {
-          name: "Programming",
+          name: "Dev",
           active: false
         }
       ]
