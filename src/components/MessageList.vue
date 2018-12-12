@@ -21,38 +21,15 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'message-list',
-  data() {
-    return {
-      messages: [
-        {
-          user: {
-            displayName: 'John Doe',
-            username: 'john'
-          },
-          text: 'Hello Everyone',
-          date: '2018-10-10'
-        },
-        {
-          user: {
-            displayName: 'Jane Doe',
-            username: 'jane'
-          },
-          text: 'Nice to meet you',
-          date: '2018-10-10'
-        },
-        {
-          user: {
-            displayName: 'Peter Doe',
-            username: 'peter'
-          },
-          text: 'Thanks Jane!',
-          date: '2018-10-10'
-        }
-      ]
-    }
-  }
+  computed: {
+    ...mapState([
+      'messages'
+    ])
+  },
 }
 </script>
 
