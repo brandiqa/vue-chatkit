@@ -11,25 +11,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'RoomList',
-  data() {
-    return {
-      rooms: [
-        {
-          name: "General",
-          active: true
-        },
-        {
-          name: "Art",
-          active: false
-        },
-        {
-          name: "Dev",
-          active: false
-        }
-      ]
-    }
+  computed: {
+    ...mapState([
+      'rooms'
+    ])
   },
   methods: {
     changeRoom(room) {
@@ -39,7 +28,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

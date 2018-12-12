@@ -7,7 +7,20 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     currentUser: {},
-    rooms: [],
+    rooms: [
+      {
+        name: "General",
+        active: true
+      },
+      {
+        name: "Art",
+        active: false
+      },
+      {
+        name: "Dev",
+        active: false
+      }
+    ],
     users: [
       {
         username: 'John',
