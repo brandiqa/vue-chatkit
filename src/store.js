@@ -6,7 +6,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    currentUser: {},
+    currentUser: {
+      username: 'john',
+      displayName: 'John Doe'
+    },
     rooms: [
       {
         name: "General",

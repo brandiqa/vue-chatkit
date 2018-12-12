@@ -1,5 +1,6 @@
 <template>
   <div class="message-form">
+    <small class="text-muted">@{{ currentUser.username }}</small>
     <b-form inline>
       <b-form-group style="width:85%">
         <b-form-input id="message-input"
@@ -17,12 +18,19 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'message-form',
   data() {
     return {
       message: ''
     }
-  }
+  },
+  computed: {
+    ...mapState([
+      'currentUser'
+    ])
+  },
 }
 </script>
