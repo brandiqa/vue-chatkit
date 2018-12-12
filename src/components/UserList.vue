@@ -12,28 +12,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'user-list',
-  data() {
-    return {
-      users: [
-        {
-          username: 'John',
-          displayName: 'John Doe',
-          status: 'online'
-        },
-        {
-          username: 'Jane',
-          displayName: 'Jane Doe',
-          status: 'offline'
-        },
-        {
-          username: 'Peter',
-          displayName: 'Peter Doe',
-          status: 'offline'
-        },
-      ]
-    }
+  computed: {
+    ...mapState([
+      'users'
+    ])
   },
   methods: {
     statusColor(status) {
