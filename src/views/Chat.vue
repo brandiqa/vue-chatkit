@@ -1,31 +1,28 @@
 <template>
-  <div class="chat-dashboard">
-   <b-row>
-     <!-- Rooms -->
-    <b-col cols="2">
-      <RoomList />
-    </b-col>
+  <b-container fluid class="chat-dashboard">
+    <b-row>
+      <b-col cols="2">
+        <RoomList />
+      </b-col>
 
-    <!-- Chat Messages -->
-    <b-col cols="8">
-      <b-row>
-        <b-col>
-          <MessageList />
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
-          <MessageForm />
-        </b-col>
-      </b-row>
-    </b-col>
+      <b-col cols="8">
+        <b-row>
+          <b-col id="chat-content">
+            <MessageList />
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            <MessageForm />
+          </b-col>
+        </b-row>
+      </b-col>
 
-    <!-- Members -->
-    <b-col cols="2">
-      <UserList />
-    </b-col>
-   </b-row>
-  </div>
+      <b-col cols="2">
+        <UserList />
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -44,3 +41,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+</style>

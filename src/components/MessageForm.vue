@@ -9,7 +9,10 @@
                       required>
         </b-form-input>
       </b-form-group>
-      <b-button type="submit" variant="primary" class="float-right">Send</b-button>
+     <div class="clearfix">
+
+        <b-button type="submit" variant="primary" class="float-right">Send</b-button>
+     </div>
     </b-form>
   </div>
 </template>
@@ -26,5 +29,9 @@ export default {
 </script>
 
 <style>
-
+.message-form {
+  border: 1px solid lightblue;
+  border-radius: 6px;
+  padding: 25px;
+}
 </style>
