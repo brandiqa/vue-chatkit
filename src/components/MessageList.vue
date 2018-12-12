@@ -4,8 +4,10 @@
     <hr>
     <div class="message-group">
       <div class="message" v-for="(message, index) in messages" :key="index">
-        <h4 class="message-title">{{ message.user.displayName }} </h4>
-        <small class="text-muted">@{{ message.user.username }} </small>
+        <div class="clearfix">
+          <h4 class="message-title">{{ message.user.displayName }} </h4>
+          <small class="text-muted float-right">@{{ message.user.username }} </small>
+        </div>
         <p class="message-text">
           {{ message.text }}
         </p>
@@ -58,7 +60,7 @@ export default {
 .message-list {
   margin-bottom: 25px;
   padding-right: 15px;
-  height: 80vh !important;
+  height: 70vh !important;
   overflow-y: scroll;
 }
 .message {
@@ -69,8 +71,10 @@ export default {
 }
 .message-title {
   font-size: 1rem;
+  display:inline;
 }
 .message-text {
   color: gray;
+  margin-bottom: 0;
 }
 </style>

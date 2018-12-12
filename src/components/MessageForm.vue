@@ -1,18 +1,17 @@
 <template>
   <div class="message-form">
-    <b-form>
-      <b-form-group>
+    <b-form inline>
+      <b-form-group style="width:85%">
         <b-form-input id="message-input"
+                      class="w-100"
                       type="text"
                       :value="message"
                       placeholder="Enter Message"
+                      size="200"
                       required>
         </b-form-input>
       </b-form-group>
-     <div class="clearfix">
-
-        <b-button type="submit" variant="primary" class="float-right">Send</b-button>
-     </div>
+      <b-button type="submit" variant="primary" class="ml-2">Send</b-button>
     </b-form>
   </div>
 </template>
@@ -27,11 +26,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.message-form {
-  border: 1px solid lightblue;
-  border-radius: 6px;
-  padding: 25px;
-}
-</style>
