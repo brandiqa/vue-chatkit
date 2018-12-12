@@ -3,6 +3,8 @@
     <h5>Chat Login</h5>
     <hr>
     <b-form @submit.prevent="onSubmit">
+       <b-alert variant="danger" :show="hasError">{{ error }} </b-alert>
+
       <b-form-group id="userInputGroup"
                     label="User Name"
                     label-for="userInput">
@@ -15,6 +17,7 @@
                       required>
         </b-form-input>
       </b-form-group>
+
       <b-button type="submit"
                 variant="primary"
                 class="ld-ext-right"
@@ -38,7 +41,9 @@ export default {
   },
   computed: {
     ...mapState([
-      'loading'
+      'loading',
+      'hasError',
+      'error'
     ]),
     isValid: function() {
       const result = this.userId.length < 3;

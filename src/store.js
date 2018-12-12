@@ -7,6 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     loading: false,
+    error: '',
+    hasError: false,
     currentUser: {
       username: 'john',
       displayName: 'John Doe'
@@ -91,7 +93,9 @@ export default new Vuex.Store({
       console.log(userId)
       state.loading = true;
       // const currentUser = await loginUser(userId);
+      // console.log(currentUser);
       // commit('setCurrentUser', currentUser);
+      // state.loading = false;
     },
     changeRoom: ({ commit }, roomId) => {
       // TODO
