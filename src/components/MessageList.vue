@@ -3,24 +3,14 @@
     <h4>Messages</h4>
     <hr>
     <div class="message-group">
-      <div class="message">
-        <h4 class="message-title">Display Name</h4>
-        <small class="text-muted">@user</small>
+      <div class="message" v-for="(message, index) in messages" :key="index">
+        <h4 class="message-title">{{ message.user.displayName }} </h4>
+        <small class="text-muted">@{{ message.user.username }} </small>
         <p class="message-text">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+          {{ message.text }}
         </p>
         <div class="clearfix">
-          <small class="text-muted float-right">1:26:40 PM</small>
-        </div>
-      </div>
-      <div class="message">
-        <h4 class="message-title">Display Name</h4>
-        <small class="text-muted">@user</small>
-        <p class="message-text">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-        </p>
-        <div class="clearfix">
-          <small class="text-muted float-right">1:27:40 PM</small>
+          <small class="text-muted float-right">{{ message.date }}</small>
         </div>
       </div>
     </div>
@@ -39,7 +29,7 @@ export default {
             displayName: 'John Doe',
             username: 'john'
           },
-          message: 'Hello Everyone',
+          text: 'Hello Everyone',
           date: '2018-10-10'
         },
         {
@@ -47,7 +37,7 @@ export default {
             displayName: 'Jane Doe',
             username: 'jane'
           },
-          message: 'Nice to meet you',
+          text: 'Nice to meet you',
           date: '2018-10-10'
         },
         {
@@ -55,7 +45,7 @@ export default {
             displayName: 'Peter Doe',
             username: 'peter'
           },
-          message: 'Thanks Jane!',
+          text: 'Thanks Jane!',
           date: '2018-10-10'
         }
       ]
