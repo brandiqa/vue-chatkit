@@ -72,19 +72,19 @@ export default new Vuex.Store({
     ]
   },
   mutations: {
-    setCurrentUser(currentUser) {
+    setCurrentUser(state, currentUser) {
       state.currentUser = currentUser;
     },
-    setRooms(rooms) {
+    setRooms(state, rooms) {
       state.rooms = rooms
     },
-    setUsers(users) {
+    setUsers(state, users) {
       state.users = users
     },
-    setMessages(messages) {
+    setMessages(state, messages) {
       state.messages = messages
     },
-    appendMessage(message) {
+    appendMessage(state, message) {
       state.messages.append(message)
     }
   },
@@ -92,10 +92,10 @@ export default new Vuex.Store({
     login: async({ commit, state }, userId) => {
       console.log(userId)
       state.loading = true;
-      // const currentUser = await loginUser(userId);
-      // console.log(currentUser);
-      // commit('setCurrentUser', currentUser);
-      // state.loading = false;
+      const currentUser = await loginUser(userId);
+      console.log(currentUser);
+      commit('setCurrentUser', currentUser);
+      state.loading = false;
     },
     changeRoom: ({ commit }, roomId) => {
       // TODO
