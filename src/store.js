@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    loading: false,
     currentUser: {
       username: 'john',
       displayName: 'John Doe'
@@ -86,9 +87,11 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    login: async({ commit }, userId) => {
-      const currentUser = await loginUser(userId);
-      commit('setCurrentUser', currentUser);
+    login: async({ commit, state }, userId) => {
+      console.log(userId)
+      state.loading = true;
+      // const currentUser = await loginUser(userId);
+      // commit('setCurrentUser', currentUser);
     },
     changeRoom: ({ commit }, roomId) => {
       // TODO
