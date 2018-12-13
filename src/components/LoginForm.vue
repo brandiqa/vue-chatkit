@@ -55,7 +55,10 @@ export default {
       'login'
     ]),
     async onSubmit() {
-      await this.login(this.userId)
+      const result = await this.login(this.userId);
+      if(result) {
+        this.$router.push('chat');
+      }
     }
   }
 

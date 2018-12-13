@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { loginUser } from './chatkit'
+import VueRouter from 'vue-router';
 
 Vue.use(Vuex)
 
@@ -10,63 +11,8 @@ export default new Vuex.Store({
     error: '',
     hasError: false,
     currentUser: null,
-    rooms: [
-      {
-        name: "General",
-        active: true
-      },
-      {
-        name: "Art",
-        active: false
-      },
-      {
-        name: "Dev",
-        active: false
-      }
-    ],
-    users: [
-      {
-        username: 'John',
-        displayName: 'John Doe',
-        status: 'online'
-      },
-      {
-        username: 'Jane',
-        displayName: 'Jane Doe',
-        status: 'offline'
-      },
-      {
-        username: 'Peter',
-        displayName: 'Peter Doe',
-        status: 'offline'
-      }
-    ],
-    messages: [
-      {
-        user: {
-          displayName: 'John Doe',
-          username: 'john'
-        },
-        text: 'Hello Everyone',
-        date: '2018-10-10'
-      },
-      {
-        user: {
-          displayName: 'Jane Doe',
-          username: 'jane'
-        },
-        text: 'Nice to meet you',
-        date: '2018-10-10'
-      },
-      {
-        user: {
-          displayName: 'Peter Doe',
-          username: 'peter'
-        },
-        text: 'Thanks Jane!',
-        date: '2018-10-10'
-      }
-    ]
+    users: [],
+    messages: []
   },
   mutations: {
     setCurrentUser(state, currentUser) {
@@ -87,12 +33,23 @@ export default new Vuex.Store({
   },
   actions: {
     login: async({ commit, state }, userId) => {
-      console.log(userId)
-      state.loading = true;
-      const currentUser = await loginUser(userId);
-      console.log(currentUser);
-      commit('setCurrentUser', currentUser);
-      state.loading = false;
+      try {
+        console.log(userId)
+        state.hasError = false;
+        state.error = '';
+        state.loading = true;
+        const currentUser = await loginUser(userId);
+        console.log(currentUser);
+        commit('setCurrentUser', currentUser);
+        return true
+      } catch (error) {
+        console.log('An Error Occurred!')
+        console.log(error)
+        state.hasError = true;
+        state.error = error.message;
+      } finally {
+        state.loading = false;
+      }
     },
     changeRoom: ({ commit }, roomId) => {
       // TODO
@@ -101,5 +58,6 @@ export default new Vuex.Store({
   getters: {
     username: state => state.currentUser ? state.currentUser.id : '',
     name: state => state.currentUser ? state.currentUser.name : '',
+    rooms: state => state.currentUser ? state.currentUser.rooms : [],
   }
 })
