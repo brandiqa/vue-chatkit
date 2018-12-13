@@ -73,6 +73,13 @@ export default new Vuex.Store({
         state.loading = false;
       }
     },
+    sendMessage: async({ commit, state }, message) => {
+      const result = await state.currentUser.sendMessage({
+        text: message,
+        roomId: state.activeRoom
+      });
+      return result;
+    },
     changeRoom: ({ commit }, roomId) => {
       // TODO
     }

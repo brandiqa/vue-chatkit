@@ -1,14 +1,15 @@
 <template>
   <div class="message-form">
     <small class="text-muted">@{{ username }}</small>
-    <b-form inline>
+    <b-form inline @submit.prevent="onSubmit">
       <b-form-group style="width:85%">
         <b-form-input id="message-input"
                       class="w-100"
                       type="text"
-                      :value="message"
+                      v-model="message"
                       placeholder="Enter Message"
                       size="200"
+                      autocomplete="off"
                       required>
         </b-form-input>
       </b-form-group>
@@ -18,7 +19,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'message-form',
@@ -32,5 +33,17 @@ export default {
       'username'
     ])
   },
+  methods: {
+    ...mapActions([
+      'sendMessage'
+    ]),
+    async onSubmit() {
+      console.log(this.message);
+      const result = await this.sendMessage(this.message);
+      if(result) {
+        this.message = '';
+      }
+    }
+  }
 }
 </script>
