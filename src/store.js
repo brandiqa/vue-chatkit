@@ -9,10 +9,7 @@ export default new Vuex.Store({
     loading: false,
     error: '',
     hasError: false,
-    currentUser: {
-      username: 'john',
-      displayName: 'John Doe'
-    },
+    currentUser: null,
     rooms: [
       {
         name: "General",
@@ -102,6 +99,7 @@ export default new Vuex.Store({
     }
   },
   getters: {
-
+    username: state => state.currentUser ? state.currentUser.id : '',
+    name: state => state.currentUser ? state.currentUser.name : '',
   }
 })

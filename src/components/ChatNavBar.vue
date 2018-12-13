@@ -4,20 +4,20 @@
       Vue Chat
     </b-navbar-brand>
     <b-navbar-nav class="ml-auto">
-      <b-nav-text>{{ currentUser.displayName }} | </b-nav-text>
+      <b-nav-text>{{ name }} | </b-nav-text>
       <b-nav-item href="#" active>Logout</b-nav-item>
     </b-navbar-nav>
   </b-navbar>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'ChatNavBar',
   computed: {
-    ...mapState([
-      'currentUser'
+    ...mapGetters([
+      'name'
     ])
   },
 }
