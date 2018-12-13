@@ -9,11 +9,11 @@
     </b-jumbotron>
     <b-container>
       <b-row>
-        <b-col cols="3"></b-col>
-        <b-col cols="6">
+        <b-col></b-col>
+        <b-col>
           <LoginForm />
         </b-col>
-        <b-col cols="3"></b-col>
+        <b-col></b-col>
       </b-row>
     </b-container>
   </div>

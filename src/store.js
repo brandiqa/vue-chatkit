@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { loginUser } from './chatkit'
-import VueRouter from 'vue-router';
+import moment from 'moment';
 
 Vue.use(Vuex)
 
@@ -11,6 +11,7 @@ export default new Vuex.Store({
     error: '',
     hasError: false,
     currentUser: null,
+    activeRoom: '',
     users: [],
     messages: []
   },
@@ -18,17 +19,23 @@ export default new Vuex.Store({
     setCurrentUser(state, currentUser) {
       state.currentUser = currentUser;
     },
-    setRooms(state, rooms) {
-      state.rooms = rooms
+    setActiveRoom(state, room) {
+      state.activeRoom = room.id;
     },
+    // setRooms(state, rooms) {
+    //   state.rooms = rooms
+    // },
     setUsers(state, users) {
       state.users = users
+    },
+    clearMessages(state) {
+      state.messages = [];
     },
     setMessages(state, messages) {
       state.messages = messages
     },
-    appendMessage(state, message) {
-      state.messages.append(message)
+    addMessage(state, message) {
+      state.messages.push(message)
     }
   },
   actions: {
@@ -41,6 +48,22 @@ export default new Vuex.Store({
         const currentUser = await loginUser(userId);
         console.log(currentUser);
         commit('setCurrentUser', currentUser);
+        const room = currentUser.rooms[0];
+        commit('setActiveRoom', room);
+        commit('clearMessages');
+        currentUser.subscribeToRoom({
+          roomId: room.id,
+          hooks: {
+            onMessage: message => {
+              commit('addMessage', {
+                name: message.sender.name,
+                username: message.senderId,
+                text: message.text,
+                date: moment(message.createdAt).format('h:mm:ss a D-MM-YYYY')
+              });
+            }
+          }
+        })
         return true
       } catch (error) {
         console.log('An Error Occurred!')
