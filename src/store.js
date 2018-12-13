@@ -66,10 +66,9 @@ export default new Vuex.Store({
         })
         return true
       } catch (error) {
-        console.log('An Error Occurred!')
         console.log(error)
         state.hasError = true;
-        state.error = error.message;
+        state.error = error.info.error_description;
       } finally {
         state.loading = false;
       }
