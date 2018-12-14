@@ -1,9 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VuexPersistence from 'vuex-persist'
 import { loginUser } from './chatkit'
 import moment from 'moment';
 
 Vue.use(Vuex)
+
+const vuexLocal = new VuexPersistence({
+  storage: window.localStorage
+})
 
 export default new Vuex.Store({
   state: {
@@ -11,6 +16,7 @@ export default new Vuex.Store({
     error: '',
     hasError: false,
     currentUser: null,
+    authenticated: false,
     activeRoom: '',
     users: [],
     messages: []
@@ -19,12 +25,9 @@ export default new Vuex.Store({
     setCurrentUser(state, currentUser) {
       state.currentUser = currentUser;
     },
-    setActiveRoom(state, room) {
-      state.activeRoom = room.id;
+    setActiveRoom(state, roomId) {
+      state.activeRoom = roomId;
     },
-    // setRooms(state, rooms) {
-    //   state.rooms = rooms
-    // },
     setUsers(state, users) {
       state.users = users
     },
@@ -49,7 +52,7 @@ export default new Vuex.Store({
         console.info("Authentication Successful!")
         commit('setCurrentUser', currentUser);
         const room = currentUser.rooms[0];
-        commit('setActiveRoom', room);
+        commit('setActiveRoom', room.id);
         commit('clearMessages');
         currentUser.subscribeToRoom({
           roomId: room.id,
@@ -73,7 +76,7 @@ export default new Vuex.Store({
         state.loading = false;
       }
     },
-    sendMessage: async({ commit, state }, message) => {
+    sendMessage: async({ state }, message) => {
       const result = await state.currentUser.sendMessage({
         text: message,
         roomId: state.activeRoom
@@ -83,13 +86,18 @@ export default new Vuex.Store({
     changeRoom: ({ commit }, roomId) => {
       // TODO
     },
-    logout: ({ commit }) => {
+    logout: async ({ commit, state }) => {
+      // const result = await state.currentUser.disconnect();
+      // console.log(result);
       commit('setCurrentUser', null);
+      commit('clearMessages');
+      commit('setActiveRoom', null);
     }
   },
   getters: {
     username: state => state.currentUser ? state.currentUser.id : '',
     name: state => state.currentUser ? state.currentUser.name : '',
     rooms: state => state.currentUser ? state.currentUser.rooms : [],
-  }
+  },
+  plugins: [vuexLocal.plugin]
 })
