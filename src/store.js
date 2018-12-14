@@ -86,8 +86,7 @@ export default new Vuex.Store({
       // TODO
     },
     logout: async ({ commit, state }) => {
-      // const result = await state.currentUser.disconnect();
-      // console.log(result);
+      await state.currentUser.disconnect();
       commit('setCurrentUser', null);
       commit('clearMessages');
       commit('setActiveRoom', null);
