@@ -16,7 +16,6 @@ export default new Vuex.Store({
     error: '',
     hasError: false,
     currentUser: null,
-    authenticated: false,
     activeRoom: '',
     users: [],
     messages: []
