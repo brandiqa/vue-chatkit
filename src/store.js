@@ -41,12 +41,12 @@ export default new Vuex.Store({
   actions: {
     login: async({ commit, state }, userId) => {
       try {
-        console.log(userId)
+        console.info("Please wait..... authenticating",userId)
         state.hasError = false;
         state.error = '';
         state.loading = true;
         const currentUser = await loginUser(userId);
-        console.log(currentUser);
+        console.info("Authentication Successful!")
         commit('setCurrentUser', currentUser);
         const room = currentUser.rooms[0];
         commit('setActiveRoom', room);
@@ -82,6 +82,9 @@ export default new Vuex.Store({
     },
     changeRoom: ({ commit }, roomId) => {
       // TODO
+    },
+    logout: ({ commit }) => {
+      commit('setCurrentUser', null);
     }
   },
   getters: {
