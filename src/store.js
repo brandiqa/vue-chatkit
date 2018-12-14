@@ -17,7 +17,7 @@ export default new Vuex.Store({
     hasError: false,
     reconnect: false,
     currentUser: null,
-    activeRoom: '',
+    activeRoom: null,
     users: [],
     messages: []
   },
@@ -34,7 +34,8 @@ export default new Vuex.Store({
     setUsers(state, users) {
       state.users = users
     },
-    clearMessages(state) {
+    clearChat(state) {
+      state.users = [];
       state.messages = [];
     },
     setMessages(state, messages) {
@@ -51,15 +52,15 @@ export default new Vuex.Store({
         state.hasError = false;
         state.error = '';
         state.loading = true;
+        commit('clearChat');
         const currentUser = await loginUser(userId);
         console.info("Authentication Successful!")
         commit('setCurrentUser', currentUser);
         commit('setReconnect', false);
-        const room = currentUser.rooms[0];
-        commit('setActiveRoom', room.id);
-        commit('clearMessages');
-        currentUser.subscribeToRoom({
-          roomId: room.id,
+        const activeRoom = currentUser.rooms[0];
+        commit('setActiveRoom', activeRoom);
+        await currentUser.subscribeToRoom({
+          roomId: activeRoom.id,
           hooks: {
             onMessage: message => {
               commit('addMessage', {
@@ -68,9 +69,12 @@ export default new Vuex.Store({
                 text: message.text,
                 date: moment(message.createdAt).format('h:mm:ss a D-MM-YYYY')
               });
+            },
+            onPresenceChanged: () => {
+              commit('setUsers', state.activeRoom.users);
             }
           }
-        })
+        });
         return true
       } catch (error) {
         console.log(error)
@@ -83,7 +87,7 @@ export default new Vuex.Store({
     sendMessage: async({ state }, message) => {
       const result = await state.currentUser.sendMessage({
         text: message,
-        roomId: state.activeRoom
+        roomId: state.activeRoom.id
       });
       return result;
     },
@@ -93,7 +97,7 @@ export default new Vuex.Store({
     logout: async ({ commit, state }) => {
       await state.currentUser.disconnect();
       commit('setCurrentUser', null);
-      commit('clearMessages');
+      commit('clearChat');
       commit('setActiveRoom', null);
     }
   },
