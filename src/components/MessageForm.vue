@@ -2,6 +2,7 @@
   <div class="message-form">
     <small class="text-muted">@{{ username }}</small>
     <b-form inline @submit.prevent="onSubmit">
+      <b-alert variant="danger" :show="hasError">{{ error }} </b-alert>
       <b-form-group style="width:85%">
         <b-form-input id="message-input"
                       class="w-100"
@@ -13,13 +14,13 @@
                       required>
         </b-form-input>
       </b-form-group>
-      <b-button type="submit" variant="primary" class="ml-2">Send</b-button>
+      <b-button type="submit" variant="primary" class="ml-2" :disabled="loading || hasError">Send</b-button>
     </b-form>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapState } from 'vuex'
 
 export default {
   name: 'message-form',
@@ -31,6 +32,11 @@ export default {
   computed: {
     ...mapGetters([
       'username'
+    ]),
+    ...mapState([
+      'loading',
+      'hasError',
+      'error'
     ])
   },
   methods: {
