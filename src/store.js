@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
 import { loginUser } from './chatkit'
-import moment from 'moment';
+import moment from 'moment'
 
 Vue.use(Vuex)
 
@@ -75,7 +75,7 @@ export default new Vuex.Store({
             }
           }
         });
-        return true
+        return true;
       } catch (error) {
         console.log(error)
         state.hasError = true;
