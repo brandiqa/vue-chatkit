@@ -1,20 +1,23 @@
 <template>
   <div class="message-form">
     <small class="text-muted">@{{ username }}</small>
-    <b-form inline @submit.prevent="onSubmit">
+    <b-form @submit.prevent="onSubmit">
       <b-alert variant="danger" :show="hasError">{{ error }} </b-alert>
-      <b-form-group style="width:85%">
-        <b-form-input id="message-input"
-                      class="w-100"
+      <b-form-group>
+        <b-form-textarea id="message-input"
                       type="text"
                       v-model="message"
                       placeholder="Enter Message"
-                      size="200"
+                      :rows="3"
                       autocomplete="off"
                       required>
-        </b-form-input>
+        </b-form-textarea>
       </b-form-group>
-      <b-button type="submit" variant="primary" class="ml-2" :disabled="loading || hasError">Send</b-button>
+      <div class="clearfix">
+        <b-button type="submit" variant="primary" class="float-right" :disabled="loading || hasError">
+          Send
+        </b-button>
+      </div>
     </b-form>
   </div>
 </template>
