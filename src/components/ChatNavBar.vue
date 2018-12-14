@@ -11,22 +11,41 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapMutations, mapState } from 'vuex'
 
 export default {
   name: 'ChatNavBar',
   computed: {
     ...mapGetters([
-      'name'
+      'name',
+      'username'
+    ]),
+    ...mapState([
+      'reconnect'
     ])
   },
+  mounted(){
+    window.addEventListener('beforeunload', this.unload);
+    if(this.reconnect) {
+      this.login(this.username);
+    }
+  },
   methods: {
+    ...mapMutations([
+      'setReconnect'
+    ]),
     ...mapActions([
-      'logout'
+      'logout',
+      'login'
     ]),
     onLogout() {
       this.$router.push({ path: '/' });
       this.logout();
+    },
+    unload(e) {
+      if(this.name) { // User hasn't logged out
+        this.setReconnect(true);
+      }
     }
   }
 }

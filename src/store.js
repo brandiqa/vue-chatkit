@@ -15,6 +15,7 @@ export default new Vuex.Store({
     loading: false,
     error: '',
     hasError: false,
+    reconnect: false,
     currentUser: null,
     activeRoom: '',
     users: [],
@@ -23,6 +24,9 @@ export default new Vuex.Store({
   mutations: {
     setCurrentUser(state, currentUser) {
       state.currentUser = currentUser;
+    },
+    setReconnect(state, reconnect) {
+      state.reconnect = reconnect;
     },
     setActiveRoom(state, roomId) {
       state.activeRoom = roomId;
@@ -50,6 +54,7 @@ export default new Vuex.Store({
         const currentUser = await loginUser(userId);
         console.info("Authentication Successful!")
         commit('setCurrentUser', currentUser);
+        commit('setReconnect', false);
         const room = currentUser.rooms[0];
         commit('setActiveRoom', room.id);
         commit('clearMessages');
@@ -70,7 +75,7 @@ export default new Vuex.Store({
       } catch (error) {
         console.log(error)
         state.hasError = true;
-        state.error = error.info.error_description;
+        state.error = error.message || error.info.error_description;
       } finally {
         state.loading = false;
       }
