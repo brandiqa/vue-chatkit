@@ -2,11 +2,11 @@
   <div class="message-list">
     <h4>Messages</h4>
     <hr>
-    <div class="message-group">
+    <div id="chat-messages" class="message-group" v-chat-scroll="{smooth: true}">
       <div class="message" v-for="(message, index) in messages" :key="index">
         <div class="clearfix">
-          <h4 class="message-title">{{ message.name }} </h4>
-          <small class="text-muted float-right">@{{ message.username }} </small>
+          <h4 class="message-title">{{ message.name }}</h4>
+          <small class="text-muted float-right">@{{ message.username }}</small>
         </div>
         <p class="message-text">
           {{ message.text }}
@@ -29,7 +29,7 @@ export default {
     ...mapState([
       'messages'
     ])
-  },
+  }
 }
 </script>
 
@@ -37,6 +37,8 @@ export default {
 .message-list {
   margin-bottom: 25px;
   padding-right: 15px;
+}
+.message-group {
   height: 70vh !important;
   overflow-y: scroll;
 }
