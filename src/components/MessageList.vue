@@ -35,11 +35,11 @@ export default {
 
 <style>
 .message-list {
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   padding-right: 15px;
 }
 .message-group {
-  height: 70vh !important;
+  height: 65vh !important;
   overflow-y: scroll;
 }
 .message {

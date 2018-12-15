@@ -13,6 +13,7 @@ const vuexLocal = new VuexPersistence({
 export default new Vuex.Store({
   state: {
     loading: false,
+    sendInProgress: false,
     error: '',
     hasError: false,
     reconnect: false,
@@ -85,11 +86,22 @@ export default new Vuex.Store({
       }
     },
     sendMessage: async({ state }, message) => {
-      const result = await state.currentUser.sendMessage({
-        text: message,
-        roomId: state.activeRoom.id
-      });
-      return result;
+      try {
+        state.hasError = false;
+        state.error = '';
+        state.sendInProgress = true;
+        const result = await state.currentUser.sendMessage({
+          text: message,
+          roomId: state.activeRoom.id
+        });
+        return result;
+      } catch (error) {
+        console.log(error)
+        state.hasError = true;
+        state.error = error.message || error.info.error_description;
+      } finally {
+        state.sendInProgress = false;
+      }
     },
     changeRoom: ({ commit }, roomId) => {
       // TODO
