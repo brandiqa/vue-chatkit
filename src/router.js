@@ -20,7 +20,7 @@ export default new Router({
       name: 'chat',
       component: Chat,
       beforeEnter: (to, from, next) => {
-        if (store.getters.username) {
+        if (store.state.user) {
           next();
         } else {
           next('/');

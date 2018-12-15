@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
-import { loginUser, subscribeToRoom } from './chatkit'
+import { loginUser, subscribeToRoom, sendMessage, logoutUser } from './chatkit'
 
 Vue.use(Vuex)
+
+const debug = process.env.NODE_ENV !== 'production'
 
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage
@@ -12,25 +14,33 @@ const vuexLocal = new VuexPersistence({
 export default new Vuex.Store({
   state: {
     loading: false,
-    sendInProgress: false,
-    error: '',
-    hasError: false,
+    sending: false,
+    error: null,
+    user: null,
     reconnect: false,
-    currentUser: null,
     activeRoom: null,
     users: [],
     messages: [],
     userTyping: null
   },
   mutations: {
-    setCurrentUser(state, currentUser) {
-      state.currentUser = currentUser;
+    setError(state, error) {
+      state.error = error;
+    },
+    setLoading(state, loading) {
+      state.loading = loading;
+    },
+    setUser(state, user) {
+      state.user = user;
     },
     setReconnect(state, reconnect) {
       state.reconnect = reconnect;
     },
     setActiveRoom(state, roomId) {
       state.activeRoom = roomId;
+    },
+    setRooms(state, rooms) {
+      state.rooms = rooms
     },
     setUsers(state, users) {
       state.users = users
@@ -45,66 +55,31 @@ export default new Vuex.Store({
     addMessage(state, message) {
       state.messages.push(message)
     },
+    setSending(state, status) {
+      state.sending = status
+    },
     setUserTyping(state, userId) {
       state.userTyping = userId
     }
   },
   actions: {
-    login: async({ commit, state }, userId) => {
-      try {
-        console.info("Please wait..... authenticating",userId)
-        state.hasError = false;
-        state.error = '';
-        state.loading = true;
-        commit('clearChat');
-        const currentUser = await loginUser(userId);
-        console.info("Authentication Successful!")
-        commit('setCurrentUser', currentUser);
-        commit('setReconnect', false);
-        const roomId = state.activeRoom ? state.activeRoom.id : currentUser.rooms[0].id
-        subscribeToRoom(roomId);
+    login: async({ state }, userId) => {
+      const success = await loginUser(userId, state.reconnect);
+      if(success){
+        await subscribeToRoom(state.activeRoom.id);
         return true;
-      } catch (error) {
-        console.log(error)
-        state.hasError = true;
-        state.error = error.message || error.info.error_description;
-      } finally {
-        state.loading = false;
       }
     },
-    sendMessage: async({ state }, message) => {
-      try {
-        state.hasError = false;
-        state.error = '';
-        state.sendInProgress = true;
-        const result = await state.currentUser.sendMessage({
-          text: message,
-          roomId: state.activeRoom.id
-        });
-        return result;
-      } catch (error) {
-        console.log(error)
-        state.hasError = true;
-        state.error = error.message || error.info.error_description;
-      } finally {
-        state.sendInProgress = false;
-      }
+    chat: async(message) => {
+      sendMessage(message)
     },
     changeActiveRoom: async ({ commit }, room) => {
-      commit('clearChat');
       subscribeToRoom(room.id);
     },
-    logout: async ({ commit, state }) => {
-      await state.currentUser.disconnect();
-      commit('setCurrentUser', null);
-      commit('clearChat');
-      commit('setActiveRoom', null);
+    logout: async () => {
+      logoutUser();
     }
   },
-  getters: {
-    username: state => state.currentUser ? state.currentUser.id : '',
-    name: state => state.currentUser ? state.currentUser.name : '',
-    rooms: state => state.currentUser ? state.currentUser.rooms : []
-  },
-  plugins: [vuexLocal.plugin]
+  plugins: [vuexLocal.plugin],
+  strict: false
 })

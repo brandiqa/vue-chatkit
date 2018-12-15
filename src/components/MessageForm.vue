@@ -1,9 +1,9 @@
 <template>
   <div class="message-form ld-over">
-    <small class="text-muted">@{{ username }}</small>
-    <b-form @submit.prevent="onSubmit" class="ld-over" v-bind:class="{ running: sendInProgress }">
+    <small class="text-muted">@{{ user.username }}</small>
+    <b-form @submit.prevent="onSubmit" class="ld-over" v-bind:class="{ running: sending }">
       <div class="ld ld-ring ld-spin"></div>
-      <b-alert variant="danger" :show="hasError">{{ error }} </b-alert>
+      <b-alert variant="danger" v-if="error != null">{{ error }} </b-alert>
       <b-form-group>
         <b-form-input id="message-input"
                       type="text"
@@ -15,7 +15,7 @@
         </b-form-input>
       </b-form-group>
       <div class="clearfix">
-        <b-button type="submit" variant="primary" class="float-right" :disabled="sendInProgress || hasError">
+        <b-button type="submit" variant="primary" class="float-right">
           Send
         </b-button>
       </div>
@@ -24,7 +24,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
+import { currentUser, sendMessage } from '../chatkit.js'
 
 export default {
   name: 'message-form',
@@ -34,29 +35,25 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      'username'
-    ]),
     ...mapState([
-      'sendInProgress',
-      'hasError',
+      'user',
+      'sending',
       'error',
-      'currentUser',
       'activeRoom'
     ])
   },
   methods: {
     ...mapActions([
-      'sendMessage',
+      'chat',
     ]),
     async onSubmit() {
-      const result = await this.sendMessage(this.message);
+      const result = await sendMessage(this.message);
       if(result) {
         this.message = '';
       }
     },
     async isTyping() {
-      await this.currentUser.isTypingIn({ roomId: this.activeRoom.id });
+      await currentUser.isTypingIn({ roomId: this.activeRoom.id });
     }
   }
 }

@@ -15,17 +15,15 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'RoomList',
   computed: {
     ...mapState([
+      'rooms',
       'activeRoom'
     ]),
-    ...mapGetters([
-      'rooms'
-    ])
   },
   methods: {
     ...mapActions([

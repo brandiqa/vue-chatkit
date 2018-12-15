@@ -4,30 +4,27 @@
       Vue Chat
     </b-navbar-brand>
     <b-navbar-nav class="ml-auto">
-      <b-nav-text>{{ name }} | </b-nav-text>
+      <b-nav-text>{{ user.name }} | </b-nav-text>
       <b-nav-item href="#" @click="onLogout" active>Logout</b-nav-item>
     </b-navbar-nav>
   </b-navbar>
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations, mapState } from 'vuex'
+import { mapActions, mapMutations, mapState } from 'vuex'
 
 export default {
   name: 'ChatNavBar',
   computed: {
-    ...mapGetters([
-      'name',
-      'username'
-    ]),
     ...mapState([
+      'user',
       'reconnect'
     ])
   },
-  mounted(){
+  mounted() {
     window.addEventListener('beforeunload', this.unload);
     if(this.reconnect) {
-      this.login(this.username);
+      this.login(this.user.username);
     }
   },
   methods: {
@@ -43,7 +40,7 @@ export default {
       this.logout();
     },
     unload(e) {
-      if(this.name) { // User hasn't logged out
+      if(this.user.username) { // User hasn't logged out
         this.setReconnect(true);
       }
     }
