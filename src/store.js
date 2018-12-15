@@ -18,8 +18,9 @@ export default new Vuex.Store({
     reconnect: false,
     currentUser: null,
     activeRoom: null,
-    // users: [],
-    messages: []
+    users: [],
+    messages: [],
+    userTyping: null
   },
   mutations: {
     setCurrentUser(state, currentUser) {
@@ -43,6 +44,9 @@ export default new Vuex.Store({
     },
     addMessage(state, message) {
       state.messages.push(message)
+    },
+    setUserTyping(state, userId) {
+      state.userTyping = userId
     }
   },
   actions: {
@@ -100,8 +104,7 @@ export default new Vuex.Store({
   getters: {
     username: state => state.currentUser ? state.currentUser.id : '',
     name: state => state.currentUser ? state.currentUser.name : '',
-    rooms: state => state.currentUser ? state.currentUser.rooms : [],
-    // users: state => state.messages ? state.activeRoom.users : []
+    rooms: state => state.currentUser ? state.currentUser.rooms : []
   },
   plugins: [vuexLocal.plugin]
 })

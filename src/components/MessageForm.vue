@@ -8,6 +8,7 @@
         <b-form-input id="message-input"
                       type="text"
                       v-model="message"
+                      @input="isTyping"
                       placeholder="Enter Message"
                       autocomplete="off"
                       required>
@@ -39,18 +40,23 @@ export default {
     ...mapState([
       'sendInProgress',
       'hasError',
-      'error'
+      'error',
+      'currentUser',
+      'activeRoom'
     ])
   },
   methods: {
     ...mapActions([
-      'sendMessage'
+      'sendMessage',
     ]),
     async onSubmit() {
       const result = await this.sendMessage(this.message);
       if(result) {
         this.message = '';
       }
+    },
+    async isTyping() {
+      await this.currentUser.isTypingIn({ roomId: this.activeRoom.id });
     }
   }
 }

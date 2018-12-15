@@ -34,6 +34,12 @@ export async function subscribeToRoom(roomId) {
         if(store.state.activeRoom) {
           store.commit('setUsers', store.state.activeRoom.users);
         }
+      },
+      onUserStartedTyping: user => {
+        store.commit('setUserTyping', user.id)
+      },
+      onUserStoppedTyping: user => {
+        store.commit('setUserTyping', null)
       }
     }
   });
