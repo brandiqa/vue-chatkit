@@ -1,6 +1,6 @@
 <template>
   <div class="login-form">
-    <h5>Chat Login</h5>
+    <h5 class="text-center">Chat Login</h5>
     <hr>
     <b-form @submit.prevent="onSubmit">
        <b-alert variant="danger" :show="hasError">{{ error }} </b-alert>
@@ -61,10 +61,17 @@ export default {
       }
     }
   }
-
 }
 </script>
 
 <style>
-
+  .login-form {
+    margin-top: 50px;
+    border: 1px solid rgb(101, 219, 255);
+    border-radius: 4px;
+    padding: 25px;
+    -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+  }
 </style>
