@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
-import { loginUser } from './chatkit'
-import moment from 'moment'
+import { loginUser, subscribeToRoom } from './chatkit'
 
 Vue.use(Vuex)
 
@@ -60,22 +59,7 @@ export default new Vuex.Store({
         commit('setReconnect', false);
         const activeRoom = currentUser.rooms[0];
         commit('setActiveRoom', activeRoom);
-        await currentUser.subscribeToRoom({
-          roomId: activeRoom.id,
-          hooks: {
-            onMessage: message => {
-              commit('addMessage', {
-                name: message.sender.name,
-                username: message.senderId,
-                text: message.text,
-                date: moment(message.createdAt).format('h:mm:ss a D-MM-YYYY')
-              });
-            },
-            onPresenceChanged: () => {
-              commit('setUsers', state.activeRoom.users);
-            }
-          }
-        });
+        subscribeToRoom(activeRoom)
         return true;
       } catch (error) {
         console.log(error)
