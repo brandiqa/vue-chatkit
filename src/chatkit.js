@@ -17,9 +17,10 @@ export async function loginUser(userId) {
   return currentUser;
 }
 
-export async function subscribeToRoom(activeRoom) {
-  currentUser.subscribeToRoom({
-    roomId: activeRoom.id,
+export async function subscribeToRoom(roomId) {
+  const activeRoom = await currentUser.subscribeToRoom({
+    roomId: roomId,
+    messageLimit: 10,
     hooks: {
       onMessage: message => {
         store.commit('addMessage', {
@@ -30,8 +31,12 @@ export async function subscribeToRoom(activeRoom) {
         });
       },
       onPresenceChanged: () => {
-        store.commit('setUsers', store.state.activeRoom.users);
+        if(store.state.activeRoom) {
+          store.commit('setUsers', store.state.activeRoom.users);
+        }
       }
     }
   });
+  store.commit('setActiveRoom', activeRoom);
+  store.commit('setUsers', activeRoom.users);
 }

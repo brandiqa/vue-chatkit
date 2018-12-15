@@ -18,7 +18,7 @@ export default new Vuex.Store({
     reconnect: false,
     currentUser: null,
     activeRoom: null,
-    users: [],
+    // users: [],
     messages: []
   },
   mutations: {
@@ -57,9 +57,8 @@ export default new Vuex.Store({
         console.info("Authentication Successful!")
         commit('setCurrentUser', currentUser);
         commit('setReconnect', false);
-        const activeRoom = currentUser.rooms[0];
-        commit('setActiveRoom', activeRoom);
-        subscribeToRoom(activeRoom)
+        const roomId = state.activeRoom ? state.activeRoom.id : currentUser.rooms[0].id
+        subscribeToRoom(roomId);
         return true;
       } catch (error) {
         console.log(error)
@@ -87,8 +86,9 @@ export default new Vuex.Store({
         state.sendInProgress = false;
       }
     },
-    changeRoom: ({ commit }, roomId) => {
-      // TODO
+    changeActiveRoom: async ({ commit }, room) => {
+      commit('clearChat');
+      subscribeToRoom(room.id);
     },
     logout: async ({ commit, state }) => {
       await state.currentUser.disconnect();
@@ -101,6 +101,7 @@ export default new Vuex.Store({
     username: state => state.currentUser ? state.currentUser.id : '',
     name: state => state.currentUser ? state.currentUser.name : '',
     rooms: state => state.currentUser ? state.currentUser.rooms : [],
+    // users: state => state.messages ? state.activeRoom.users : []
   },
   plugins: [vuexLocal.plugin]
 })
