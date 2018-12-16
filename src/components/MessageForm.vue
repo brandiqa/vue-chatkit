@@ -3,7 +3,7 @@
     <small class="text-muted">@{{ user.username }}</small>
     <b-form @submit.prevent="onSubmit" class="ld-over" v-bind:class="{ running: sending }">
       <div class="ld ld-ring ld-spin"></div>
-      <b-alert variant="danger" v-if="error != null">{{ error }} </b-alert>
+      <b-alert variant="danger" :show="hasError">{{ error }} </b-alert>
       <b-form-group>
         <b-form-input id="message-input"
                       type="text"
@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
-import { currentUser, sendMessage } from '../chatkit.js'
+import { mapActions, mapState, mapGetters } from 'vuex'
+import { isTyping } from '../chatkit.js'
 
 export default {
   name: 'message-form',
@@ -40,20 +40,23 @@ export default {
       'sending',
       'error',
       'activeRoom'
+    ]),
+    ...mapGetters([
+      'hasError'
     ])
   },
   methods: {
     ...mapActions([
-      'chat',
+      'sendMessage',
     ]),
     async onSubmit() {
-      const result = await sendMessage(this.message);
+      const result = await this.sendMessage(this.message);
       if(result) {
         this.message = '';
       }
     },
     async isTyping() {
-      await currentUser.isTypingIn({ roomId: this.activeRoom.id });
+      await isTyping(this.activeRoom.id);
     }
   }
 }

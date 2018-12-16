@@ -3,7 +3,7 @@
     <h5 class="text-center">Chat Login</h5>
     <hr>
     <b-form @submit.prevent="onSubmit">
-       <b-alert variant="danger" v-if="error">{{ error }} </b-alert>
+       <b-alert variant="danger" :show="hasError">{{ error }} </b-alert>
 
       <b-form-group id="userInputGroup"
                     label="User Name"
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'login-form',
@@ -42,8 +42,10 @@ export default {
   computed: {
     ...mapState([
       'loading',
-      'hasError',
       'error'
+    ]),
+    ...mapGetters([
+      'hasError'
     ]),
     isValid: function() {
       const result = this.userId.length < 3;

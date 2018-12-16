@@ -27,10 +27,10 @@ export default {
   },
   methods: {
     ...mapActions([
-      'changeActiveRoom'
+      'changeRoom'
     ]),
     onChange(room) {
-      this.changeActiveRoom(room)
+      this.changeRoom(room.id)
     }
   }
 }
