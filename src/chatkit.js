@@ -2,8 +2,8 @@ import { ChatManager, TokenProvider } from '@pusher/chatkit-client'
 import moment from 'moment'
 import store from './store/index'
 
-const INSTANCE_LOCATOR = process.env.VUE_APP_INSTANCE_LOCATOR;
-const TOKEN_URL = process.env.VUE_APP_TOKEN_URL;
+const INSTANCE_LOCATOR = process.env.VUE_APP_INSTANCE_LOCATOR || "v1:us1:dd40dbb8-63fa-4081-901d-8d76fd697f4d";
+const TOKEN_URL = process.env.VUE_APP_TOKEN_URL || "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/dd40dbb8-63fa-4081-901d-8d76fd697f4d/token";
 const MESSAGE_LIMIT = process.env.VUE_APP_MESSAGE_LIMIT || 10;
 
 let currentUser = null;
