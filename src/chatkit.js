@@ -29,6 +29,7 @@ function setMembers() {
 }
 
 async function subscribeToRoom(roomId) {
+  store.commit('clearChatRoom');
   activeRoom = await currentUser.subscribeToRoom({
     roomId,
     messageLimit: MESSAGE_LIMIT,

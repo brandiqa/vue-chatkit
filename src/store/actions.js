@@ -60,7 +60,7 @@ export default {
     }
   },
   async logout({ commit }) {
-    commit('clearChat');
+    commit('reset');
     chatkit.disconnectUser();
     window.localStorage.clear();
   }

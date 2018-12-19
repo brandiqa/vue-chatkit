@@ -20,11 +20,9 @@ export default {
   setUsers(state, users) {
     state.users = users
   },
-  clearChat(state) {
+  clearChatRoom(state) {
     state.users = [];
     state.messages = [];
-    state.rooms = [];
-    state.user = null;
   },
   setMessages(state, messages) {
     state.messages = messages
@@ -37,5 +35,12 @@ export default {
   },
   setUserTyping(state, userId) {
     state.userTyping = userId
+  },
+  reset(state) {
+    state.error = null;
+    state.users = [];
+    state.messages = [];
+    state.rooms = [];
+    state.user = null
   }
 }
