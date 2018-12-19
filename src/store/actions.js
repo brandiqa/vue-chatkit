@@ -16,6 +16,7 @@ export default {
         username: currentUser.id,
         name: currentUser.name
       });
+      commit('setReconnect', false);
 
       // Save list of user's rooms in store
       const rooms = currentUser.rooms.map(room => ({

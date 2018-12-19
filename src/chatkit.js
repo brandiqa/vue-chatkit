@@ -48,7 +48,7 @@ async function subscribeToRoom(roomId) {
       onUserStartedTyping: user => {
         store.commit('setUserTyping', user.id)
       },
-      onUserStoppedTyping: user => {
+      onUserStoppedTyping: () => {
         store.commit('setUserTyping', null)
       }
     }
